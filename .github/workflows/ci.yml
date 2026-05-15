@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build docker image
-        run: docker build -t mcp-test
+        run: docker build -t mcp-test .
 
       - name: Verify container runs
         run: |
