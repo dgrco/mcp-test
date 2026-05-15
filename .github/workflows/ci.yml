@@ -38,7 +38,7 @@ jobs:
 
       - name: Verify container runs
         run: |
-          docker run --rm chemical-mcp python -c "
+          docker run --rm mcp-test python -c "
           import asyncio, sys
           sys.path.insert(0, '/app')
           from mcp_server.server import call_tool
