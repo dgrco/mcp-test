@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest pytest-asyncio
+
+      - name: Run MCP tool tests
+        run: pytest tests/ -v
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build docker image
+        run: docker build -t mcp-test
+
+      - name: Verify container runs
+        run: |
+          docker run --rm chemical-mcp python -c "
+          import asyncio, sys
+          sys.path.insert(0, '/app')
+          from mcp_server.server import call_tool
+          async def test():
+              result = await call_tool('read_document', {'filename': 'sample_doc.txt'})
+              assert 'RV-101' in result[0].text, 'Container smoke test failed'
+              print('Container OK:', result[0].text[:50])
+          asyncio.run(test())
+          "
