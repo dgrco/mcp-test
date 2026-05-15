@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  mcp-server:
+    build: .
+    container_name: mcp-test
+    volumes:
+      - ./mcp_server/data:/app/mcp_server/data
+    stdin_open: true
+    tty: true

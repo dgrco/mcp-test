@@ -1,0 +1,7 @@
+PROCESS: Reactor Vessel RV-101
+Max operating temperature: 250°C
+Max pressure: 15 bar
+Coolant: Water-glycol mixture (30%)
+Required inspections: Every 90 days
+Hazard class: Flammable liquid, Category 2
+Emergency shutdown: Close valve V-12, activate CO2 suppression
